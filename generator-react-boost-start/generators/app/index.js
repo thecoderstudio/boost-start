@@ -1,7 +1,15 @@
 const Generator = require('yeoman-generator');
-var rename = require("gulp-rename");
+const rename = require("gulp-rename");
 
 module.exports = class extends Generator {
+  default() {
+    this.destinationRoot(this.destinationPath(this.options.projectName));
+    this.composeWith(require.resolve('../parcel'), {
+      title: this.options.title,
+      destinationRoot: this.destinationRoot
+    });
+  }
+
   prompting() {
     return this.prompt([
       {
@@ -32,7 +40,7 @@ module.exports = class extends Generator {
         default: 0,
       }
     ]).then((answers) => {
-      this.userInput = answers
+      this.options = answers
     });
   }
 
@@ -43,12 +51,12 @@ module.exports = class extends Generator {
     }));
     this.fs.copyTpl(
       this.templatePath('./**'),
-      this.destinationPath(this.userInput.projectName),
+      this.destinationPath('.'),
       {
-        name: this.userInput.projectName,
-        description: this.userInput.projectDescription,
-        title: this.userInput.title,
-        author: this.userInput.author
+        name: this.options.projectName,
+        description: this.options.projectDescription,
+        title: this.options.title,
+        author: this.options.author
       }
     );
   }
