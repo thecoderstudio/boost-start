@@ -11,7 +11,11 @@ module.exports = class extends Generator {
   }
 
   _writePackageJSON() {
-    this.yarnInstall(['parcel-bundler']);
+    this.yarnInstall([
+      'parcel-bundler',
+      'babel-preset-react',
+      'babel-preset-env'
+    ]);
   }
 
   _writeTemplateFiles() {

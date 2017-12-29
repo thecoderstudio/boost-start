@@ -5,7 +5,6 @@ module.exports = class extends Generator {
   default() {
     this.destinationRoot(this.destinationPath(this.options.projectName));
 
-    this.log(this.options.bundler)
     if (this.options.bundler == 'Parcel') {
       this.composeWith(require.resolve('../parcel'), {
         title: this.options.title,
@@ -62,6 +61,10 @@ module.exports = class extends Generator {
         title: this.options.title,
         author: this.options.author
       }
+    );
+    this.fs.copyTpl(
+      this.templatePath('./.*'),
+      this.destinationRoot()
     );
   }
 }
