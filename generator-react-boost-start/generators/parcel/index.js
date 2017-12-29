@@ -1,5 +1,4 @@
 const Generator = require('yeoman-generator');
-const extend = require('deep-extend');
 
 module.exports = class extends Generator {
   default() {
@@ -12,13 +11,7 @@ module.exports = class extends Generator {
   }
 
   _writePackageJSON() {
-    const basePkg = this.fs.readJSON(this.destinationPath('package.json'), {});
-
-    extend(basePkg, {
-      dependencies: {
-        'parcel-bundler': '^1.3.1'
-      }
-    });
+    this.yarnInstall(['parcel-bundler']);
   }
 
   _writeTemplateFiles() {
