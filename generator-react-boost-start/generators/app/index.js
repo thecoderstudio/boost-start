@@ -4,10 +4,14 @@ const rename = require("gulp-rename");
 module.exports = class extends Generator {
   default() {
     this.destinationRoot(this.destinationPath(this.options.projectName));
-    this.composeWith(require.resolve('../parcel'), {
-      title: this.options.title,
-      destinationRoot: this.destinationRoot
-    });
+
+    this.log(this.options.bundler)
+    if (this.options.bundler == 'Parcel') {
+      this.composeWith(require.resolve('../parcel'), {
+        title: this.options.title,
+        destinationRoot: this.destinationRoot
+      });
+    }
   }
 
   prompting() {
