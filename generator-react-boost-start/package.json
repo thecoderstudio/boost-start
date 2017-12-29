@@ -1,0 +1,18 @@
+{
+  "name": "generator-react-boost-start",
+  "version": "0.1.0",
+  "license": "BSD-2-Clause",
+  "description": "React generator for the boost-start project.",
+  "repository": "thecoderstudio/generator-react-boost-start",
+  "author": "Code R",
+  "files": [
+    "base"
+  ],
+  "keywords": [
+    "yeoman-generator"
+  ],
+  "dependencies": {
+    "gulp-rename": "^1.2.2",
+    "yeoman-generator": "^2.0.2"
+  }
+}

@@ -1,13 +1,7 @@
-import {Generator} from 'yeoman-generator';
+const Generator = require('yeoman-generator');
+var rename = require("gulp-rename");
 
-class ReactGenerator extends Generator {
-  val userInput;
-
-  constructor(args, opts) {
-    super(args, opts);
-    this.sourceRoot('./templates/base');
-  }
-
+module.exports = class extends Generator {
   prompting() {
     return this.prompt([
       {
@@ -38,32 +32,24 @@ class ReactGenerator extends Generator {
         default: 0,
       }
     ]).then((answers) => {
-      userInput = answers
+      this.userInput = answers
     });
   }
 
   writing() {
-    this.fs.copyTpl(
-      this.templatePath('package.json'),
-      this.destinationPath('package.json'),
-      {
-        name: userInput.projectName,
-        description: userInput.projectDescription,
-        author: userInput.author
-      }
-    );
-    this.fs.copyTpl(
-      this.templatePath('src/index.html'),
-      this.destinationPath('src/index.html'),
-      {
-        title: userInput.title
-      }
-    );
+    this.registerTransformStream(rename(function(path) {
+        path.basename = path.basename.replace(/(_package)/g, 'package');
+        path.dirname = path.dirname.replace(/(_package)/g, 'package');
+    }));
     this.fs.copyTpl(
       this.templatePath('./**'),
-      this.destionationPath('.')
+      this.destinationPath(this.userInput.projectName),
+      {
+        name: this.userInput.projectName,
+        description: this.userInput.projectDescription,
+        title: this.userInput.title,
+        author: this.userInput.author
+      }
     );
   }
 }
-
-export default ReactGenerator
