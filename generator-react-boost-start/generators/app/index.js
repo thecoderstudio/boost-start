@@ -11,6 +11,14 @@ module.exports = class extends Generator {
         destinationRoot: this.destinationRoot
       });
     }
+
+    this.log(this.options.technologies)
+
+    if (this.options.technologies.includes('react-router-dom')) {
+      this.composeWith(require.resolve('../react-router-dom'), {
+        destinationRoot: this.destinationRoot
+      }); 
+    }
   }
 
   prompting() {
@@ -41,6 +49,12 @@ module.exports = class extends Generator {
         message: "Choose a bundler",
         choices: ["Parcel", "Webpack"],
         default: 0,
+      },
+      {
+        type: "checkbox",
+        name: "technologies",
+        message: "What else do you like to be included?",
+        choices: ["react-router-dom"]
       }
     ]).then((answers) => {
       this.options = answers
