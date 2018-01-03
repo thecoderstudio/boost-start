@@ -3,7 +3,24 @@ const Generator = require('yeoman-generator');
 module.exports = class extends Generator {
   default() {
     this.destinationRoot(this.options.destinationRoot);
+
+    if (this.options.reduxTechnologies.includes('redux-persist')) {
+      this.composeWith(require.resolve('subgenerators/redux-persist'), {
+        destinationRoot: this.options.destinationRoot
+      });
+    }
   }
+
+  prompting() {[
+    {
+      type: "checkbox",
+      name: "reduxTechnologies",
+      message: "Which Redux specific technologies would you like to be included?",
+      choices: ["redux-persist"]
+    }
+  ]}.then(answers) => {
+    this.options = answers;
+  });
 
   writing() {
     this._writePackageJson();
@@ -13,7 +30,7 @@ module.exports = class extends Generator {
   _writePackageJson() {
     this.yarnInstall([
       'redux',
-      'redux-persist'
+      'react-redux'
     ]);
   }
 
