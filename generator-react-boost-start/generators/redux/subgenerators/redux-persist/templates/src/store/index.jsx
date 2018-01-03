@@ -1,7 +1,7 @@
 import { createStore } from 'redux';
 import { persistStore, persistCombineReducers } from 'redux-persist';
 
-import reducer from 'src/reducers';
+import reducer from '../reducers';
 
 
 function configureStore() {

@@ -5,22 +5,24 @@ module.exports = class extends Generator {
     this.destinationRoot(this.options.destinationRoot);
 
     if (this.options.reduxTechnologies.includes('redux-persist')) {
-      this.composeWith(require.resolve('subgenerators/redux-persist'), {
+      this.composeWith(require.resolve('./subgenerators/redux-persist'), {
         destinationRoot: this.options.destinationRoot
       });
     }
   }
 
-  prompting() {[
-    {
-      type: "checkbox",
-      name: "reduxTechnologies",
-      message: "Which Redux specific technologies would you like to be included?",
-      choices: ["redux-persist"]
-    }
-  ]}.then(answers) => {
-    this.options = answers;
-  });
+  prompting() {
+    return this.prompt([
+      {
+        type: "checkbox",
+        name: "reduxTechnologies",
+        message: "Which Redux specific technologies would you like to be included?",
+        choices: ["redux-persist"]
+      }
+    ]).then((answers) => {
+      this.options = answers;
+    })
+  }
 
   writing() {
     this._writePackageJson();
