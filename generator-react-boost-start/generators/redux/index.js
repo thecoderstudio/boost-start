@@ -1,6 +1,4 @@
 const Generator = require('yeoman-generator');
-const cheerio = require('cheerio');
-const esprima = require('esprima');
 
 module.exports = class extends Generator {
   default() {
@@ -8,18 +6,21 @@ module.exports = class extends Generator {
   }
 
   writing() {
-    this._writePackageJSON();
+    this._writePackageJson();
     this._writeTemplateFiles();
   }
 
   _writePackageJson() {
     this.yarnInstall([
-      'styled-components'
+      'redux',
+      'redux-persist'
     ]);
   }
 
   _writeTemplateFiles() {
-    var app = this.fs.read(this.destinationPath('src/App.jsx'));
-
+    this.fs.copyTpl(
+      this.templatePath('**'),
+      this.destinationRoot()
+    );
   }
 }
