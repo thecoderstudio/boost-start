@@ -12,6 +12,8 @@
     "yeoman-generator"
   ],
   "dependencies": {
+    "cheerio": "^1.0.0-rc.2",
+    "esprima": "^4.0.0",
     "gulp-rename": "^1.2.2",
     "yeoman-generator": "^2.0.2"
   }
