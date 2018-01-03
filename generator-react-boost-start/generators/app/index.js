@@ -25,6 +25,12 @@ module.exports = class extends Generator {
         destinationRoot: this.destinationRoot
       });
     }
+
+    if (this.options.technologies.includes('rxjs')) {
+      this.composeWith(require.resolve('../rxjs'), {
+        destinationRoot: this.destinationRoot
+      });
+    }
   }
 
   prompting() {
@@ -60,7 +66,7 @@ module.exports = class extends Generator {
         type: "checkbox",
         name: "technologies",
         message: "What else do you like to be included?",
-        choices: ["react-router-dom", "redux"]
+        choices: ["react-router-dom", "redux", "rxjs"]
       }
     ]).then((answers) => {
       this.options = answers
