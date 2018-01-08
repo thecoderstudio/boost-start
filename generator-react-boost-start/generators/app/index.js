@@ -10,6 +10,11 @@ module.exports = class extends Generator {
         title: this.options.title,
         destinationRoot: this.destinationRoot
       });
+    } else if (this.options.bundler == 'Webpack') {
+     this.composeWith(require.resolve('../webpack'), {
+        title: this.options.title,
+        destinationRoot: this.destinationRoot
+      });
     }
 
     this.log(this.options.technologies)

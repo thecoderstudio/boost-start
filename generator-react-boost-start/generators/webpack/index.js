@@ -2,6 +2,14 @@ const Generator = require('yeoman-generator');
 const rename = require("gulp-rename");
 
 module.exports = class extends Generator {
+  default() {
+    this.destinationRoot(this.options.destinationRoot);
+  }
+
+  writing() {
+    this._writePackageJson();
+    this._writeTemplateFiles();
+  }
 
   _writePackageJson() {
     this.yarnInstall([
@@ -11,6 +19,10 @@ module.exports = class extends Generator {
       'webpack-dev-server',
       'path'
     ]);
+
+    const pkg = this.fs.readJSON(this.destinationPath('_package.json'));
+    pkg["scripts"]["start"] = "webpack-dev-server --config config/webpack.config.js";
+    this.fs.writeJSON(this.destinationPath('_package.json'), pkg);
   }
 
   _writeTemplateFiles() {
