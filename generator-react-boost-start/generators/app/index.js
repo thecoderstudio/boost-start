@@ -36,6 +36,13 @@ module.exports = class extends Generator {
         destinationRoot: this.destinationRoot
       });
     }
+
+    if (this.options.devops.includes('docker')) {
+      this.composeWith(require.resolve('../docker'), {
+        destinationRoot: this.destinationRoot,
+        projectName: this.options.projectName
+      });
+    }
   }
 
   prompting() {
@@ -72,6 +79,12 @@ module.exports = class extends Generator {
         name: "technologies",
         message: "What else do you like to be included?",
         choices: ["react-router-dom", "redux", "rxjs"]
+      },
+      {
+        type: "checkbox",
+        name: "devops",
+        message: "Do you want any devops tech to make your life easier?",
+        choices: ["docker"]
       }
     ]).then((answers) => {
       this.options = answers
