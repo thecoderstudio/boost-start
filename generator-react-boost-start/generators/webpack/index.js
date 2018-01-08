@@ -16,9 +16,9 @@ module.exports = class extends Generator {
       'html-webpack-plugin',
       'babel-loader',
       'webpack',
-      'webpack-dev-server',
       'path'
     ]);
+    this.yarnInstall(['webpack-dev-server'], { 'dev': true });
 
     const pkg = this.fs.readJSON(this.destinationPath('_package.json'));
     pkg["scripts"]["start"] = "webpack-dev-server --config config/webpack.config.js";
