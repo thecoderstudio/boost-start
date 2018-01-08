@@ -75,8 +75,8 @@ module.exports = class extends Generator {
 
   writing() {
     this.registerTransformStream(rename(function(path) {
-        path.basename = path.basename.replace(/(_package)/g, 'package');
-        path.dirname = path.dirname.replace(/(_package)/g, 'package');
+        path.basename = path.basename.replace(/(_)/g, '');
+        path.dirname = path.dirname.replace(/(_)/g, '');
     }));
     this.fs.copyTpl(
       this.templatePath('./**'),
