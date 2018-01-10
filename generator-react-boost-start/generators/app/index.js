@@ -17,23 +17,11 @@ module.exports = class extends Generator {
       });
     }
 
-    this.log(this.options.technologies)
-
-    if (this.options.technologies.includes('react-router-dom')) {
-      this.composeWith(require.resolve('../react-router-dom'), {
-        destinationRoot: this.destinationRoot
-      }); 
-    }
-
-    if (this.options.technologies.includes('redux')) {
-      this.composeWith(require.resolve('../redux'), {
-        destinationRoot: this.destinationRoot
-      });
-    }
-
-    if (this.options.technologies.includes('rxjs')) {
-      this.composeWith(require.resolve('../rxjs'), {
-        destinationRoot: this.destinationRoot
+    for (const key in this.options.technologies) {
+      const technology = this.options.technologies[key]
+      this.composeWith(require.resolve('../' + technology), {
+        destinationRoot: this.destinationRoot,
+        projectName: this.options.projectName
       });
     }
 
@@ -78,7 +66,7 @@ module.exports = class extends Generator {
         type: "checkbox",
         name: "technologies",
         message: "What else do you like to be included?",
-        choices: ["react-router-dom", "redux", "rxjs"]
+        choices: ["styled-components", "react-router-dom", "redux", "rxjs"]
       },
       {
         type: "checkbox",

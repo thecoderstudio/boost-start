@@ -1,14 +1,16 @@
 const Generator = require('yeoman-generator');
-const cheerio = require('cheerio');
-const esprima = require('esprima');
+const babylon = require("babylon");
+const esformatter = require("esformatter");
+const transform = require("transform-ast");
 
 module.exports = class extends Generator {
   default() {
     this.destinationRoot(this.options.destinationRoot);
+    esformatter.register(require('esformatter-jsx'));
   }
 
   writing() {
-    this._writePackageJSON();
+    this._writePackageJson();
     this._writeTemplateFiles();
   }
 
@@ -20,6 +22,30 @@ module.exports = class extends Generator {
 
   _writeTemplateFiles() {
     var app = this.fs.read(this.destinationPath('src/App.jsx'));
+    var changedApp = this._includeThemeProvider(app);
+    this.fs.write(this.destinationPath('src/App.jsx'),
+      esformatter.format(changedApp.toString())
+    );
+  }
 
+  _includeThemeProvider(code) {
+    return transform(code,
+      {
+        parser: babylon,
+        sourceType: "module",
+        plugins: ["jsx"]
+      },
+      function(node) {
+        if (node.type === "JSXElement") {
+          if (node.parent.type === "ReturnStatement"){
+            node.prepend("<div>\n<ThemeProvider theme={theme}>\n");
+            node.append("\n</ThemeProvider>\n</div>");
+          }
+        }
+        if (node.type === "ClassDeclaration") {
+          node.prepend("var theme = {};\n\n");
+        }
+      }
+    );
   }
 }

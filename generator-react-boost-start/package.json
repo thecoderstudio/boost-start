@@ -12,9 +12,13 @@
     "yeoman-generator"
   ],
   "dependencies": {
+    "babylon": "^6.18.0",
     "cheerio": "^1.0.0-rc.2",
+    "esformatter": "^0.10.0",
+    "esformatter-jsx": "^8.0.1",
     "esprima": "^4.0.0",
     "gulp-rename": "^1.2.2",
+    "transform-ast": "^2.2.2",
     "yeoman-generator": "^2.0.2"
   }
 }
