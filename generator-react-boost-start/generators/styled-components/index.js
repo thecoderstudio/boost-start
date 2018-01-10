@@ -45,6 +45,17 @@ module.exports = class extends Generator {
         if (node.type === "ClassDeclaration") {
           node.prepend("var theme = {};\n\n");
         }
+        if (node.type === "Program") {
+          var lastImportOccurence = 0;
+          for (const i in node.body) {
+            const component = node.body[i];
+            if (component.type === "ImportDeclaration") {
+              lastImportOccurence = component;
+            }
+          }
+
+          lastImportOccurence.append("\nimport { ThemeProvider } from 'styled-components';\n");
+        }
       }
     );
   }
