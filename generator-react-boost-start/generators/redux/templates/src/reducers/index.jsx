@@ -1,12 +1,5 @@
-import { persistCombineReducers } from 'redux-persist';
-import storage from 'redux-persist/es/storage'
+import { combineReducers } from 'redux'
 
-
-const config = {
-  key: 'root',
-  storage,
-}
-
-const reducer = persistCombineReducers(config, {});
+const reducer = combineReducers({});
 
 export default reducer;
