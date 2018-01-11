@@ -25,8 +25,8 @@ module.exports = class extends Generator {
       });
     }
 
-    if (answers.technologies.includes('redux') &&
-        answers.technologies.includes('rxjs')) {
+    if (this.options.technologies.includes('redux') &&
+        this.options.technologies.includes('rxjs')) {
       this.composeWith(require.resolve('../redux-observable'), {
         destinationRoot: this.destinationRoot
       });

@@ -6,7 +6,7 @@ module.exports = class extends Generator {
   }
 
   writing() {
-    this._writePackageJSON();
+    this._writePackageJson();
   }
 
   _writePackageJson() {

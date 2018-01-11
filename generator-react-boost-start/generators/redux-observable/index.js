@@ -1,4 +1,7 @@
 const Generator = require('yeoman-generator');
+const babylon = require("babylon");
+const esformatter = require("esformatter");
+const transform = require("transform-ast");
 
 module.exports = class extends Generator {
   default() {
@@ -43,11 +46,12 @@ module.exports = class extends Generator {
     var store = this.fs.read(this.destinationPath('src/store/index.jsx'));
     var changedStore = this._includeReduxObservable(store);
     this.fs.write(this.destinationPath('src/store/index.jsx'),
-      esformatter.format(changedApp.toString())
+      esformatter.format(changedStore.toString())
     );
   }
 
-  _includeReduxObservable() {
+  _includeReduxObservable(unparsedCode) {
+    const self = this;
     return transform(unparsedCode,
       {
         parser: babylon,
@@ -56,19 +60,18 @@ module.exports = class extends Generator {
       },
       function(node) {
         if (node.type === "FunctionDeclaration") {
-          node.prepend("const epicMiddleware = createEpicMiddleware(epic);\n\n");
-          console.log(node.body.body[0].source())
+          node.prepend("const epicMiddleware = createEpicMiddleware(epic);\n");
         }
         if (node.type === "VariableDeclaration" && node.source().includes("createStore")) {
           node.update(
           "const store = createStore(\n\
             reducer,\n\
             applyMiddleware(epicMiddleware)\n\
-           );\n"
+           );"
           );
         }
         if (node.type === "Program") {
-          this._injectImports(node);
+          self._injectImports(node);
         }
       }
     );
@@ -76,23 +79,21 @@ module.exports = class extends Generator {
 
   _injectImports(program) {
     const lastImportOccurence = this._getLastImportOccurence(program.body);
-    var reduxImport;
+    const reduxImportIndex = program.body.findIndex(i => i.source.extra.rawValue === "redux");
+    const reduxImport = program.body[reduxImportIndex];
     
     reduxImport.update("import { createStore, applyMiddleware } from 'redux';\n");
     reduxImport.append("import { createEpicMiddleware } from 'redux-observable';");
-    lastImportOccurence.append("\nimport epic from './epics';\n");
+    lastImportOccurence.append("\nimport epic from '../epics';\n");
   }
 
   _getLastImportOccurence(programBody) {
     var lastImportOccurence;
 
     for (const i in programBody) {
-      const component = node.body[i];
+      const component = programBody[i];
       if (component.type === "ImportDeclaration") {
         lastImportOccurence = component;
-        if (component.source.extra.rawValue) {
-          reduxImport = component;
-        };
       }
     }
 
