@@ -25,6 +25,14 @@ module.exports = class extends Generator {
       });
     }
 
+    if (answers.technologies.includes('redux') &&
+        answers.technologies.includes('rxjs')) {
+      this.composeWith(require.resolve('../redux-observable'), {
+        destinationRoot: this.destinationRoot
+      });
+    }
+
+
     if (this.options.devops.includes('docker')) {
       this.composeWith(require.resolve('../docker'), {
         destinationRoot: this.destinationRoot,
