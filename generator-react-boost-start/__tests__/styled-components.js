@@ -7,40 +7,24 @@ const helpers = require('yeoman-test');
 describe('generator:app', () => {
   describe('defaults', () => {
     beforeEach(() => {
-      return helpers.run(path.join(__dirname, '../generators/app'))
-        .withPrompts({
+      return helpers.run(path.join(__dirname, '../generators/docker'))
+        .withOptions({
           projectName: "test-react-app",
-          projectDescription: "A react app",
-          title: "test",
-          author: "sample@coderstudio.nl",
-          technologies: [],
-          devops: []
+          destinationRoot: "test-react-app/"
         });
     });
 
     it('creates files', () => {
       const expected = [
-        '.babelrc',
-        'package.json',
-        'src/package.json',
-        'src/App.jsx',
-        'src/index.html',
-        'src/index.jsx'
+        'Dockerfile'
       ];
 
       assert.file(expected);
     });
 
-    it('fills package.json with correct information', () => {
-      assert.JSONFileContent('package.json', {
-        name: "test-react-app",
-        description: "A react app",
-        author: "sample@coderstudio.nl"
-      });
-    });
-
-    it('fills index.html with correct information', () => {
-      assert.fileContent('src/index.html', '<title>test</title>');
+    it('fills Dockerfile with correct information', () => {
+      assert.fileContent('Dockerfile', 'RUN mkdir -p test-react-app');
+      assert.fileContent('Dockerfile', 'WORKDIR /test-react-app');
     });
   });
 });

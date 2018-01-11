@@ -4,7 +4,7 @@ const assert = require('yeoman-assert');
 const helpers = require('yeoman-test');
 
 
-describe('generator:app', () => {
+describe('generator:docker', () => {
   describe('defaults', () => {
     beforeEach(() => {
       return helpers.run(path.join(__dirname, '../generators/docker'))

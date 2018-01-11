@@ -4,43 +4,27 @@ const assert = require('yeoman-assert');
 const helpers = require('yeoman-test');
 
 
-describe('generator:app', () => {
+describe('generator:parcel', () => {
   describe('defaults', () => {
     beforeEach(() => {
-      return helpers.run(path.join(__dirname, '../generators/app'))
-        .withPrompts({
-          projectName: "test-react-app",
-          projectDescription: "A react app",
+      return helpers.run(path.join(__dirname, '../generators/parcel'))
+        .withOptions({
           title: "test",
-          author: "sample@coderstudio.nl",
-          technologies: [],
-          devops: []
+          destinationRoot: "test-react-app/"
         });
     });
 
     it('creates files', () => {
       const expected = [
-        '.babelrc',
-        'package.json',
-        'src/package.json',
-        'src/App.jsx',
-        'src/index.html',
-        'src/index.jsx'
+        'src/index.html'
       ];
 
       assert.file(expected);
     });
 
-    it('fills package.json with correct information', () => {
-      assert.JSONFileContent('package.json', {
-        name: "test-react-app",
-        description: "A react app",
-        author: "sample@coderstudio.nl"
-      });
-    });
-
     it('fills index.html with correct information', () => {
       assert.fileContent('src/index.html', '<title>test</title>');
+      assert.fileContent('src/index.html', '<script src="index.jsx"></script>');
     });
   });
 });
