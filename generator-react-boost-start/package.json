@@ -11,6 +11,9 @@
   "keywords": [
     "yeoman-generator"
   ],
+  "scripts": {
+    "test": "jest"
+  },
   "dependencies": {
     "babylon": "^6.18.0",
     "cheerio": "^1.0.0-rc.2",
@@ -20,5 +23,10 @@
     "gulp-rename": "^1.2.2",
     "transform-ast": "^2.2.2",
     "yeoman-generator": "^2.0.2"
+  },
+  "devDependencies": {
+    "jest": "^22.0.6",
+    "yeoman-assert": "^3.1.0",
+    "yeoman-test": "^1.7.0"
   }
 }
