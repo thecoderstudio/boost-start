@@ -3,28 +3,34 @@ const path = require('path');
 const assert = require('yeoman-assert');
 const helpers = require('yeoman-test');
 
+const pkg = '{"scripts":{}}';
 
-describe('generator:app', () => {
+describe('generator:webpack', () => {
   describe('defaults', () => {
     beforeEach(() => {
-      return helpers.run(path.join(__dirname, '../generators/docker'))
+      return helpers.run(path.join(__dirname, '../generators/webpack'))
         .withOptions({
-          projectName: "test-react-app",
           destinationRoot: "test-react-app/"
+        })
+        .on('ready', (generator) => {
+          generator.fs.write('test-react-app/_package.json', pkg);
         });
     });
 
     it('creates files', () => {
       const expected = [
-        'Dockerfile'
+        'config/webpack.config.js'
       ];
 
       assert.file(expected);
     });
 
-    it('fills Dockerfile with correct information', () => {
-      assert.fileContent('Dockerfile', 'RUN mkdir -p test-react-app');
-      assert.fileContent('Dockerfile', 'WORKDIR /test-react-app');
+    it('fills package.json with correct information', () => {
+      assert.JSONFileContent('_package.json', {
+        scripts: {
+          start: "webpack-dev-server --config config/webpack.config.js"
+        }
+      });
     });
   });
 });
