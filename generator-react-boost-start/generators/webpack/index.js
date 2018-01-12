@@ -14,6 +14,7 @@ module.exports = class extends Generator {
   _writePackageJson() {
     this.yarnInstall([
       'html-webpack-plugin',
+      'babel-core',
       'babel-loader',
       'webpack',
       'path'
