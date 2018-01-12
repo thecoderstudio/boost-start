@@ -41,5 +41,9 @@ module.exports = class extends Generator {
       this.templatePath('**'),
       this.destinationRoot()
     );
+    this.fs.copyTpl(
+      this.templatePath('./**/.*'),
+      this.destinationRoot()
+    );
   }
 }
