@@ -43,7 +43,7 @@ module.exports = class extends Generator {
           }
         }
         if (node.type === "ClassDeclaration") {
-          node.prepend("var theme = {};\n\n");
+          node.prepend("const theme = {};\n\n");
         }
         if (node.type === "Program") {
           var lastImportOccurence = 0;
