@@ -22,6 +22,7 @@ module.exports = class extends Generator {
 
     const pkg = this.fs.readJSON(this.destinationPath('_package.json'));
     pkg["scripts"]["start"] = "webpack-dev-server --config config/webpack.config.js";
+    pkg["scripts"]["build"] = "webpack --config config/webpack.config.js";
     this.fs.writeJSON(this.destinationPath('_package.json'), pkg);
   }
 

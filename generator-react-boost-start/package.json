@@ -15,12 +15,14 @@
     "test": "jest"
   },
   "dependencies": {
+    "babel-preset-env": "^1.6.1",
     "babylon": "^6.18.0",
     "cheerio": "^1.0.0-rc.2",
     "esformatter": "^0.10.0",
     "esformatter-jsx": "^8.0.1",
     "esprima": "^4.0.0",
     "gulp-rename": "^1.2.2",
+    "serve": "^6.4.4",
     "transform-ast": "^2.2.2",
     "yeoman-generator": "^2.0.2"
   },

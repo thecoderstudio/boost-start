@@ -13,9 +13,13 @@ module.exports = class extends Generator {
   _writePackageJSON() {
     this.yarnInstall([
       'parcel-bundler',
-      'babel-preset-react',
-      'babel-preset-env'
-    ]);
+    ], { 'dev': true });
+
+    const pkg = this.fs.readJSON(this.destinationPath('_package.json'));
+    pkg["scripts"]["start"] = "node_modules/parcel-bundler/bin/cli.js src/index.html";
+    pkg["scripts"]["build"] = "node_modules/parcel-bundler/bin/cli.js build src/index.html";
+    this.fs.writeJSON(this.destinationPath('_package.json'), pkg);
+
   }
 
   _writeTemplateFiles() {

@@ -102,9 +102,5 @@ module.exports = class extends Generator {
         author: this.options.author
       }
     );
-    this.fs.copyTpl(
-      this.templatePath('./.*'),
-      this.destinationRoot()
-    );
   }
 }
