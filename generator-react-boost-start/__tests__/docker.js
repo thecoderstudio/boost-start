@@ -8,6 +8,9 @@ describe('generator:docker', () => {
   describe('defaults', () => {
     beforeEach(() => {
       return helpers.run(path.join(__dirname, '../generators/docker'))
+        .withPrompts({
+          port: 1234
+        })
         .withOptions({
           projectName: "test-react-app",
           destinationRoot: "test-react-app/"
@@ -16,7 +19,8 @@ describe('generator:docker', () => {
 
     it('creates files', () => {
       const expected = [
-        'Dockerfile'
+        'Dockerfile',
+        'dev-compose.yml'
       ];
 
       assert.file(expected);

@@ -21,7 +21,7 @@ module.exports = class extends Generator {
       }
     ]).then((answers) => {
       this.options = answers;
-    })
+    });
   }
 
   writing() {

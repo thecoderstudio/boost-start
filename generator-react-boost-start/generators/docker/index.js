@@ -5,6 +5,18 @@ module.exports = class extends Generator {
     this.destinationRoot(this.options.destinationRoot);
   }
 
+  prompting() {
+    return this.prompt([
+      {
+        type: "input",
+        name: "port",
+        message: "Which local port would you like to bind the container to by default?"
+      }
+    ]).then((answers) => {
+      this.options["input"] = answers.input
+    });
+  }
+
   writing() {
     this._writeTemplateFiles();
   }
@@ -14,7 +26,8 @@ module.exports = class extends Generator {
       this.templatePath('**'),
       this.destinationRoot(),
       {
-        projectName: this.options.projectName
+        projectName: this.options.projectName,
+        port: this.options.port
       }
     );
 
