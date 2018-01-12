@@ -29,6 +29,8 @@ module.exports = class extends Generator {
   }
 
   _includeThemeProvider(code) {
+    const self = this;
+
     return transform(code,
       {
         parser: babylon,
@@ -37,26 +39,38 @@ module.exports = class extends Generator {
       },
       function(node) {
         if (node.type === "JSXElement") {
+          // Wrap the existing HTML in <ThemeProvider> tags
           if (node.parent.type === "ReturnStatement"){
             node.prepend("<div>\n<ThemeProvider theme={theme}>\n");
             node.append("\n</ThemeProvider>\n</div>");
           }
         }
+
+        // Create the theme variable above the class
         if (node.type === "ClassDeclaration") {
           node.prepend("const theme = {};\n\n");
         }
-        if (node.type === "Program") {
-          var lastImportOccurence = 0;
-          for (const i in node.body) {
-            const component = node.body[i];
-            if (component.type === "ImportDeclaration") {
-              lastImportOccurence = component;
-            }
-          }
 
+        // Add imports to the top of the file
+        if (node.type === "Program") {
+          const lastImportOccurence = self._getLastImportOccurence(node.body);
           lastImportOccurence.append("\nimport { ThemeProvider } from 'styled-components';\n");
         }
       }
     );
   }
+
+  _getLastImportOccurence(programBody) {
+    var lastImportOccurence;
+
+    for (const i in programBody) {
+      const component = programBody[i];
+      if (component.type === "ImportDeclaration") {
+        lastImportOccurence = component;
+      }
+    }
+
+    return lastImportOccurence;
+  }
+
 }
