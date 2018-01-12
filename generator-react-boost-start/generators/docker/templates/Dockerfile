@@ -12,17 +12,27 @@ ENV NPM_CONFIG_LOGLEVEL warn
 RUN mkdir -p <%= projectName %>
 WORKDIR /<%= projectName %>
 
+# Add yarn repo
+RUN apt-get update
+RUN apt-get install -y \
+    curl \
+    apt-transport-https
+RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
+RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
+
 # Update and install dependencies
 RUN apt-get update
-RUN npm install -g serve
+RUN apt-get install -y \
+    yarn
+RUN yarn global add serve
 
 # Install dependencies
 COPY package.json package.json
-RUN npm install
+RUN NODE_ENV=development yarn
 
 # Copy project files into image
 COPY . .
 
-RUN npm run build
+RUN yarn run build
 
-CMD ["npm", "run", "start:prod"]
+CMD ["yarn", "run", "start:prod"]
