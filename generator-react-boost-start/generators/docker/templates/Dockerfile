@@ -2,8 +2,8 @@ FROM node:8.2.1
 MAINTAINER Code R (techteam@coderstudio.nl)
 
 # Expose port
-ENV PORT 5000
-EXPOSE 5000
+ENV PORT 1234
+EXPOSE 1234
 
 # Override the base log level (info).
 ENV NPM_CONFIG_LOGLEVEL warn

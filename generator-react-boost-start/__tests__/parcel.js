@@ -3,6 +3,7 @@ const path = require('path');
 const assert = require('yeoman-assert');
 const helpers = require('yeoman-test');
 
+const pkg = '{"scripts":{}}';
 
 describe('generator:parcel', () => {
   describe('defaults', () => {
@@ -11,6 +12,9 @@ describe('generator:parcel', () => {
         .withOptions({
           title: "test",
           destinationRoot: "test-react-app/"
+        })
+        .on('ready', (generator) => {
+          generator.fs.write('test-react-app/_package.json', pkg);
         });
     });
 

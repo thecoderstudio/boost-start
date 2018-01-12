@@ -4,7 +4,7 @@
   "description": "<%= description %>",
   "main": "index.jsx",
   "scripts": {
-    "start:prod": "serve -s dist"
+    "start:prod": "serve -p 1234 -s dist"
   },
   "keywords": [],
   "author": "<%= author %>",

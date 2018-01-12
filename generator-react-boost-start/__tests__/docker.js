@@ -30,5 +30,14 @@ describe('generator:docker', () => {
       assert.fileContent('Dockerfile', 'RUN mkdir -p test-react-app');
       assert.fileContent('Dockerfile', 'WORKDIR /test-react-app');
     });
+
+    it('fills dev-compose.yml with correct information', () => {
+      assert.fileContent('dev-compose.yml', 'container_name: test-react-app');
+      assert.fileContent('dev-compose.yml', 'image: test-react-app:dev');
+      assert.fileContent('dev-compose.yml', '- .:/test-react-app');
+      assert.fileContent('dev-compose.yml', '- /test-react-app/node_modules/');
+      assert.fileContent('dev-compose.yml', '- "1234:1234"');
+    });
+
   });
 });

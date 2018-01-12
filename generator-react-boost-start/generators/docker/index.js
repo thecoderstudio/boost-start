@@ -13,7 +13,7 @@ module.exports = class extends Generator {
         message: "Which local port would you like to bind the container to by default?"
       }
     ]).then((answers) => {
-      this.options["input"] = answers.input
+      this.options["port"] = answers.port
     });
   }
 
