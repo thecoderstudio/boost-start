@@ -74,7 +74,7 @@ module.exports = class extends Generator {
         type: "checkbox",
         name: "technologies",
         message: "What else do you like to be included?",
-        choices: ["styled-components", "react-router-dom", "redux", "rxjs"]
+        choices: ["react-router-dom", "redux", "rxjs", "styled-components"]
       },
       {
         type: "checkbox",
